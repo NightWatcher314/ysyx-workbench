@@ -1,6 +1,6 @@
 MODULE=chip
 
-all:clean waves
+all:clean sim
 
 waves: sim
 	@echo

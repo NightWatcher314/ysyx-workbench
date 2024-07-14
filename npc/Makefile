@@ -4,7 +4,7 @@ all:
 	@echo "Write this Makefile by your self."
 
 .PHONY: sim
-sim: ./obj_dir/V$(MODULE)
+sim: clean ./obj_dir/V$(MODULE)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo
 	@echo "### SIMULATING ###"

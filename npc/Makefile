@@ -1,20 +1,21 @@
 MODULE=chip
 
 all:clean waves
-	@echo "### RUN ALL ###"
-
-
-sim: waveform.vcd
-	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
-	
-verilate: .stamp.verilate
-
-build: ./obj_dir/V$(MODULE)
 
 waves: sim
 	@echo
 	@echo "### WAVES ###"
 	gtkwave waveform.vcd
+
+sim: waveform.vcd
+	$(call git_commit, "sim RTL")
+
+build: ./obj_dir/V$(MODULE)
+	$(call git_commit, "build RTL")
+
+verilate: .stamp.verilate
+
+
 
 waveform.vcd: ./obj_dir/V$(MODULE)
 	@echo

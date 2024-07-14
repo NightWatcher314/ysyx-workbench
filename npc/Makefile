@@ -3,6 +3,12 @@ MODULE=chip
 all:
 	@echo "Write this Makefile by your self."
 
+.PHONY:waves
+waves: sim
+	@echo
+	@echo "### WAVES ###"
+	gtkwave waveform.vcd
+
 .PHONY: sim
 sim: clean ./obj_dir/V$(MODULE)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
@@ -10,12 +16,6 @@ sim: clean ./obj_dir/V$(MODULE)
 	@echo "### SIMULATING ###"
 	@./obj_dir/V$(MODULE) +verilator+rand+reset+2
 	
-.PHONY:waves
-waves: sim
-	@echo
-	@echo "### WAVES ###"
-	gtkwave waveform.vcd
-
 ./obj_dir/V$(MODULE): .stamp.verilate
 	@echo
 	@echo "### BUILDING SIM ###"

@@ -7,9 +7,9 @@
 #include <verilated_vcd_c.h>
 
 // 导入模型类
-#include "Vchip.h"
+#include "Vtop.h"
 // 导入模型中的enum
-#include "Vchip___024unit.h"
+#include "Vtop___024unit.h"
 
 // 终止时间
 #define MAX_SIM_TIME 200
@@ -20,7 +20,7 @@ vluint64_t sim_time = 0;
 vluint64_t posedge_cnt = 0;
 
 // 初始化函数
-void dut_reset(Vchip *dut, vluint64_t &sim_time)
+void dut_reset(Vtop *dut, vluint64_t &sim_time)
 {
   dut->rst = 0;
   if (sim_time >= 3 && sim_time < 6)
@@ -28,7 +28,7 @@ void dut_reset(Vchip *dut, vluint64_t &sim_time)
     dut->rst = 1;
     dut->a_in = 0;
     dut->b_in = 0;
-    dut->op_in = Vchip___024unit::nop;
+    dut->op_in = Vtop___024unit::nop;
     dut->in_valid = 0;
   }
 }
@@ -40,7 +40,7 @@ int main(int argc, char **argv, char **env)
   // 向仿真器传入参数
   Verilated::commandArgs(argc, argv);
   // 初始化电路模型
-  Vchip *dut = new Vchip;
+  Vtop *dut = new Vtop;
 
   // 启用波形记录
   Verilated::traceEverOn(true);
@@ -68,14 +68,14 @@ int main(int argc, char **argv, char **env)
       if (sim_time >= 10)
         posedge_cnt++;
 
-      dut->op_in = Vchip___024unit::nop;
+      dut->op_in = Vtop___024unit::nop;
       dut->in_valid = 0;
       // 输入加法测试用例
       if (posedge_cnt == 2)
       {
         dut->a_in = rand();
         dut->b_in = rand();
-        dut->op_in = Vchip___024unit::add;
+        dut->op_in = Vtop___024unit::add;
         dut->in_valid = 1;
       }
       // 检查加法结果
@@ -94,7 +94,7 @@ int main(int argc, char **argv, char **env)
       {
         dut->a_in = rand();
         dut->b_in = rand();
-        dut->op_in = Vchip___024unit::sub;
+        dut->op_in = Vtop___024unit::sub;
         dut->in_valid = 1;
       }
       // 检查减法结果

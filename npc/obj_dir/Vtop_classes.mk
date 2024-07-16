@@ -2,7 +2,7 @@
 # DESCRIPTION: Verilator output: Make include file with class lists
 #
 # This file lists generated Verilated files, for including in higher level makefiles.
-# See Vchip.mk for the caller.
+# See Vtop.mk for the caller.
 
 ### Switches...
 # C11 constructs required?  0/1 (always on now)
@@ -23,27 +23,27 @@ VM_TRACE_FST = 0
 ### Object file lists...
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
-	Vchip \
-	Vchip___024root__DepSet_h99e6f01f__0 \
-	Vchip___024root__DepSet_hb3e8affa__0 \
+	Vtop \
+	Vtop___024root__DepSet_h84412442__0 \
+	Vtop___024root__DepSet_heccd7ead__0 \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
-	Vchip___024root__Slow \
-	Vchip___024root__DepSet_h99e6f01f__0__Slow \
-	Vchip___024root__DepSet_hb3e8affa__0__Slow \
-	Vchip___024unit__Slow \
-	Vchip___024unit__DepSet_h66b4afef__0__Slow \
+	Vtop___024root__Slow \
+	Vtop___024root__DepSet_h84412442__0__Slow \
+	Vtop___024root__DepSet_heccd7ead__0__Slow \
+	Vtop___024unit__Slow \
+	Vtop___024unit__DepSet_hff17caec__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
-	Vchip__Trace__0 \
+	Vtop__Trace__0 \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
 VM_SUPPORT_SLOW += \
-	Vchip__Syms \
-	Vchip__Trace__0__Slow \
-	Vchip__TraceDecls__0__Slow \
+	Vtop__Syms \
+	Vtop__Trace__0__Slow \
+	Vtop__TraceDecls__0__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

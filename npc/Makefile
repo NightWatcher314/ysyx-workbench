@@ -1,4 +1,4 @@
-MODULE=chip
+MODULE=top
 
 all:clean sim
 

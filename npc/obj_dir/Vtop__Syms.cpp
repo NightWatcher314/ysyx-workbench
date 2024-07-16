@@ -1,17 +1,17 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vchip__pch.h"
-#include "Vchip.h"
-#include "Vchip___024root.h"
-#include "Vchip___024unit.h"
+#include "Vtop__pch.h"
+#include "Vtop.h"
+#include "Vtop___024root.h"
+#include "Vtop___024unit.h"
 
 // FUNCTIONS
-Vchip__Syms::~Vchip__Syms()
+Vtop__Syms::~Vtop__Syms()
 {
 }
 
-Vchip__Syms::Vchip__Syms(VerilatedContext* contextp, const char* namep, Vchip* modelp)
+Vtop__Syms::Vtop__Syms(VerilatedContext* contextp, const char* namep, Vtop* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp{modelp}

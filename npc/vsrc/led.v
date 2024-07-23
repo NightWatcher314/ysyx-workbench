@@ -11,7 +11,7 @@ module led(
     if (rst) begin led <= 1; count <= 0; end
     else begin
       if (count == 0) led <= {led[6:0], led[7]};
-      count <= (count >= 5000000 ? 32'b0 : count + 1);
+      count <= (count >= 500000 ? 32'b0 : count + 1);
     end
   end
 

@@ -43,26 +43,28 @@ $(BIN): $(VSRCS) $(CSRCS) $(NVBOARD_ARCHIVE)
 all:clean run
 
 run: $(BIN)
+	@echo
+	@echo "### BOARD ###"
 	$(call git_commit, "sim RTL")
 	@$^
 
-waves: sim
-	@echo
-	@echo "### WAVES ###"
-	gtkwave waveform.vcd
+# waves: sim
+# 	@echo
+# 	@echo "### WAVES ###"
+# 	gtkwave waveform.vcd
 
-sim: waveform.vcd
-	$(call git_commit, "sim RTL")
+# sim: waveform.vcd
+# 	$(call git_commit, "sim RTL")
 
 # build: ./obj_dir/V$(MODULE)
 # 	$(call git_commit, "build RTL")
 
 # verilate: .stamp.verilate
 
-waveform.vcd: $(BIN)
-	@echo
-	@echo "### SIMULATING ###"
-	@$(BIN) +verilator+rand+reset+2
+# waveform.vcd: $(BIN)
+# 	@echo
+# 	@echo "### SIMULATING ###"
+# 	@$(BIN) +verilator+rand+reset+2
 
 # ./obj_dir/V$(MODULE): .stamp.verilate
 # 	@echo

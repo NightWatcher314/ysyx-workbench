@@ -1,62 +1,103 @@
-typedef enum logic [1:0] {
-  add = 2'h1,
-  sub = 2'h2,
-  nop = 2'h0
-} operation_t /*verilator public*/;
-
-module top #(
-    parameter WIDTH = 8
-) (
+module top(
     input clk,
     input rst,
-
-    input operation_t op_in,
-    input [WIDTH-1:0] a_in,
-    input [WIDTH-1:0] b_in,
-    input in_valid,
-
-    output logic [WIDTH-1:0] out,
-    output logic out_valid
+    input [4:0] btn,
+    input [7:0] sw,
+    input ps2_clk,
+    input ps2_data,
+    input uart_rx,
+    output uart_tx,
+    output [15:0] ledr,
+    output VGA_CLK,
+    output VGA_HSYNC,
+    output VGA_VSYNC,
+    output VGA_BLANK_N,
+    output [7:0] VGA_R,
+    output [7:0] VGA_G,
+    output [7:0] VGA_B,
+    output [7:0] seg0,
+    output [7:0] seg1,
+    output [7:0] seg2,
+    output [7:0] seg3,
+    output [7:0] seg4,
+    output [7:0] seg5,
+    output [7:0] seg6,
+    output [7:0] seg7
 );
 
-  operation_t op_in_r;
-  logic [WIDTH-1:0] a_in_r;
-  logic [WIDTH-1:0] b_in_r;
-  logic in_valid_r;
-  logic [WIDTH-1:0] result;
+led my_led(
+    .clk(clk),
+    .rst(rst),
+    .btn(btn),
+    .sw(sw),
+    .ledr(ledr)
+);
 
-  always_ff @(posedge clk, posedge rst) begin
-    if (rst) begin
-      op_in_r <= nop;
-      a_in_r <= '0;
-      b_in_r <= '0;
-      in_valid_r <= '0;
-    end else begin
-      op_in_r <= op_in;
-      a_in_r <= a_in;
-      b_in_r <= b_in;
-      in_valid_r <= in_valid;
-    end
-  end
+assign VGA_CLK = clk;
 
-  always_comb begin
-    result = '0;
-    if (in_valid_r) begin
-      case (op_in_r)
-        add: result = a_in_r + b_in_r;
-        sub: result = a_in_r + (~b_in_r + 1'b1);
-        default: result = '0;
-      endcase
-    end
-  end
+wire [9:0] h_addr;
+wire [9:0] v_addr;
+wire [23:0] vga_data;
 
-  always_ff @(posedge clk, posedge rst) begin
-    if (rst) begin
-      out <= '0;
-      out_valid <= '0;
-    end else begin
-      out <= result;
-      out_valid <= in_valid_r;
-    end
-  end
+vga_ctrl my_vga_ctrl(
+    .pclk(clk),
+    .reset(rst),
+    .vga_data(vga_data),
+    .h_addr(h_addr),
+    .v_addr(v_addr),
+    .hsync(VGA_HSYNC),
+    .vsync(VGA_VSYNC),
+    .valid(VGA_BLANK_N),
+    .vga_r(VGA_R),
+    .vga_g(VGA_G),
+    .vga_b(VGA_B)
+);
+
+ps2_keyboard my_keyboard(
+    .clk(clk),
+    .resetn(~rst),
+    .ps2_clk(ps2_clk),
+    .ps2_data(ps2_data)
+);
+
+seg my_seg(
+    .clk(clk),
+    .rst(rst),
+    .o_seg0(seg0),
+    .o_seg1(seg1),
+    .o_seg2(seg2),
+    .o_seg3(seg3),
+    .o_seg4(seg4),
+    .o_seg5(seg5),
+    .o_seg6(seg6),
+    .o_seg7(seg7)
+);
+
+vmem my_vmem(
+    .h_addr(h_addr),
+    .v_addr(v_addr[8:0]),
+    .vga_data(vga_data)
+);
+
+uart my_uart(
+  .tx(uart_tx),
+  .rx(uart_rx)
+);
+
+endmodule
+
+module vmem(
+    input [9:0] h_addr,
+    input [8:0] v_addr,
+    output [23:0] vga_data
+);
+
+reg [23:0] vga_mem [524287:0];
+
+initial begin
+    $readmemh("resource/picture.hex", vga_mem);
+end
+
+assign vga_data = vga_mem[{h_addr, v_addr}];
+
 endmodule

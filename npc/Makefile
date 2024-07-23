@@ -12,8 +12,6 @@ BIN = $(BUILD_DIR)/$(TOPNAME)
 
 default: $(BIN)
 
-$(shell mkdir -p $(BUILD_DIR))
-
 # constraint file
 SRC_AUTO_BIND = $(abspath $(BUILD_DIR)/auto_bind.cpp)
 $(SRC_AUTO_BIND): $(NXDC_FILES)
@@ -31,6 +29,9 @@ include $(NVBOARD_HOME)/scripts/nvboard.mk
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 CXXFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
 
+$(BUILD_DIR):
+	$(shell mkdir -p $(BUILD_DIR))
+
 $(BIN): $(VSRCS) $(CSRCS) $(NVBOARD_ARCHIVE)
 	@echo	
 	@rm -rf $(OBJ_DIR)
@@ -40,7 +41,8 @@ $(BIN): $(VSRCS) $(CSRCS) $(NVBOARD_ARCHIVE)
 		--Mdir $(OBJ_DIR) --exe -o $(abspath $(BIN))
 
 
-all:clean run
+all:clean $(BUILD_DIR) run
+
 
 run: $(BIN)
 	@echo

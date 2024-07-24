@@ -49,10 +49,11 @@ run: $(BIN)
 	$(call git_commit, "sim RTL")
 	@$^
 
-# waves: sim
-# 	@echo
-# 	@echo "### WAVES ###"
-# 	gtkwave waveform.vcd
+waves: waveform.vcd
+	@echo
+	@echo "### WAVES ###"
+	$(call git_commit, "sim RTL")
+	gtkwave waveform.vcd
 
 # sim: waveform.vcd
 # 	$(call git_commit, "sim RTL")
@@ -62,10 +63,10 @@ run: $(BIN)
 
 # verilate: .stamp.verilate
 
-# waveform.vcd: $(BIN)
-# 	@echo
-# 	@echo "### SIMULATING ###"
-# 	@$(BIN) +verilator+rand+reset+2
+waveform.vcd: $(BIN)
+	@echo
+	@echo "### SIMULATING ###"
+	@$(BIN) +verilator+rand+reset+2
 
 # ./obj_dir/V$(MODULE): .stamp.verilate
 # 	@echo

@@ -40,8 +40,14 @@ int main(int argc, char** argv)
     int i = 0;
     while (i++ <= 1000) {
         // nvboard_update();
-        tfp->dump(i); // 10ns per dump
-        single_cycle();
+        tfp->dump(i);
+        if (i % 2 == 0) {
+            dut.clk = 0;
+            dut.eval();
+        } else {
+            dut.clk = 1;
+            dut.eval();
+        }
     }
     dut.final();
     tfp->close();

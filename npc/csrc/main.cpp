@@ -30,7 +30,7 @@ int main(int argc, char** argv)
     Verilated::traceEverOn(true);
 
     VerilatedVcdC* tfp = new VerilatedVcdC();
-    tfp->open("top.vcd");
+    tfp->open("waveform.vcd");
     // nvboard_bind_all_pins(&dut);
     // nvboard_init();
 

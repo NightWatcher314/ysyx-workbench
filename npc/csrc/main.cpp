@@ -1,9 +1,9 @@
 #include <Vtop.h>
 #include <nvboard.h>
 
-static TOP_NAME dut;
+static Vtop dut;
 
-void nvboard_bind_all_pins(TOP_NAME* top);
+void nvboard_bind_all_pins(Vtop* top);
 
 static void single_cycle()
 {

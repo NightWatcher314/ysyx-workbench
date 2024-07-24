@@ -30,7 +30,9 @@ int main(int argc, char** argv)
     Verilated::traceEverOn(true);
 
     VerilatedVcdC* tfp = new VerilatedVcdC();
+    dut.trace(tfp, 99);
     tfp->open("waveform.vcd");
+
     // nvboard_bind_all_pins(&dut);
     // nvboard_init();
 
@@ -38,9 +40,13 @@ int main(int argc, char** argv)
     int i = 0;
     while (i++ <= 1000) {
         // nvboard_update();
+        dut.eval();
+        tfp->dump(i * 10); // 10ns per dump
+        if (Verilated::gotFinish())
+            break;
         single_cycle();
     }
-
+    dut.final();
     tfp->close();
     return 0;
 }

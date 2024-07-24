@@ -22,7 +22,8 @@ VSRCS = $(shell find $(abspath ./vsrc) -name "*.v")
 CSRCS = $(shell find $(abspath ./csrc) -name "*.c" -or -name "*.cc" -or -name "*.cpp")
 CSRCS += $(SRC_AUTO_BIND)
 
-
+# rules for NVBoard
+include $(NVBOARD_HOME)/scripts/nvboard.mk
 
 # rules for verilator
 INCFLAGS = $(addprefix -I, $(INC_PATH))
@@ -48,7 +49,7 @@ run: $(BIN)
 	$(call git_commit, "sim RTL")
 	@$^
 
-waves: sim
+waves: clean $(BUILD_DIR) sim
 	@echo
 	@echo "### WAVES ###"
 	$(call git_commit, "sim RTL")
@@ -89,5 +90,3 @@ clean:
 # rules for git
 include ../Makefile
 
-# rules for NVBoard
-include $(NVBOARD_HOME)/scripts/nvboard.mk

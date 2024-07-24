@@ -30,7 +30,7 @@ int main(int argc, char** argv)
     Verilated::traceEverOn(true);
 
     VerilatedVcdC* m_trace = new VerilatedVcdC();
-    // tfp->open("top.vcd");
+    tfp->open("top.vcd");
     // nvboard_bind_all_pins(&dut);
     // nvboard_init();
 
@@ -41,6 +41,6 @@ int main(int argc, char** argv)
         single_cycle();
     }
 
-    // tfp->close();
+    tfp->close();
     return 0;
 }

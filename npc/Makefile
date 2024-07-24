@@ -1,6 +1,6 @@
 TOPNAME = top
 NXDC_FILES = constr/top.nxdc
-INC_PATH ?=
+INC_PATH +=/usr/local/share/verilator/include
 
 VERILATOR = verilator
 VERILATOR_CFLAGS += -MMD --build -cc  \
@@ -63,10 +63,10 @@ sim: waveform.vcd
 
 # verilate: .stamp.verilate
 
-waveform.vcd: $(BIN)
-	@echo
-	@echo "### SIMULATING ###"
-	@$(BIN) +verilator+rand+reset+2
+# waveform.vcd: $(BIN)
+# 	@echo
+# 	@echo "### SIMULATING ###"
+# 	@$(BIN) +verilator+rand+reset+2
 
 # ./obj_dir/V$(MODULE): .stamp.verilate
 # 	@echo

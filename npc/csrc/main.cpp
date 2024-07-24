@@ -1,5 +1,7 @@
+
 #include <Vtop.h>
 #include <nvboard.h>
+#include <verilated_vcd_c.h>
 
 static Vtop dut;
 
@@ -21,8 +23,13 @@ static void reset(int n)
     dut.rst = 0;
 }
 
-int main()
+int main(int argc, char** argv)
 {
+    Verilated::commandArgs(argc, argv);
+    Verilated::traceEverOn(true);
+
+    // VerilatedVcdC* tfp = new VerilatedVcdC();
+    // tfp->open("top.vcd");
     // nvboard_bind_all_pins(&dut);
     // nvboard_init();
 
@@ -32,4 +39,7 @@ int main()
         // nvboard_update();
         single_cycle();
     }
+
+    // tfp->close();
+    return 0;
 }

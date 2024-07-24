@@ -23,13 +23,13 @@ static void reset(int n)
 
 int main()
 {
-    nvboard_bind_all_pins(&dut);
-    nvboard_init();
+    // nvboard_bind_all_pins(&dut);
+    // nvboard_init();
 
     reset(10);
 
     while (1) {
-        nvboard_update();
+        // nvboard_update();
         single_cycle();
     }
 }

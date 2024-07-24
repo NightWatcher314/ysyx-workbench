@@ -85,7 +85,7 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 
-.PHONY: sim clean verilate build waves default run all
+.PHONY: sim clean verilate build waves default run all waveform.vcd
 
 # rules for git
 include ../Makefile

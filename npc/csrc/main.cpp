@@ -42,8 +42,6 @@ int main(int argc, char** argv)
         // nvboard_update();
         dut.eval();
         tfp->dump(i * 10); // 10ns per dump
-        if (Verilated::gotFinish())
-            break;
         single_cycle();
     }
     dut.final();

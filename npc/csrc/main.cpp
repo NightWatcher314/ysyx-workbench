@@ -27,8 +27,8 @@ int main()
     // nvboard_init();
 
     reset(10);
-
-    while (1) {
+    int i = 0;
+    while (i++ <= 1000) {
         // nvboard_update();
         single_cycle();
     }

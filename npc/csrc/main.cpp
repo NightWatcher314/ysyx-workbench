@@ -29,7 +29,7 @@ int main(int argc, char** argv)
     Verilated::commandArgs(argc, argv);
     Verilated::traceEverOn(true);
 
-    VerilatedVcdC* m_trace = new VerilatedVcdC();
+    VerilatedVcdC* tfp = new VerilatedVcdC();
     tfp->open("top.vcd");
     // nvboard_bind_all_pins(&dut);
     // nvboard_init();

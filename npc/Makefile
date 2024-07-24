@@ -63,10 +63,10 @@ sim: waveform.vcd
 
 # verilate: .stamp.verilate
 
-# waveform.vcd: $(BIN)
-# 	@echo
-# 	@echo "### SIMULATING ###"
-# 	@$(BIN) +verilator+rand+reset+2
+waveform.vcd: $(BIN)
+	@echo
+	@echo "### SIMULATING ###"
+	@$(BIN) +verilator+rand+reset+2
 
 # ./obj_dir/V$(MODULE): .stamp.verilate
 # 	@echo

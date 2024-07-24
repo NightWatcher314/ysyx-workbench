@@ -49,24 +49,22 @@ run: $(BIN)
 	$(call git_commit, "sim RTL")
 	@$^
 
-waves: clean $(BUILD_DIR) sim
+wave: clean $(BUILD_DIR) sim
 	@echo
 	@echo "### WAVES ###"
-	$(call git_commit, "sim RTL")
 	gtkwave waveform.vcd
 
-sim: waveform.vcd
-	$(call git_commit, "sim RTL")
-
-# build: ./obj_dir/V$(MODULE)
-# 	$(call git_commit, "build RTL")
-
-# verilate: .stamp.verilate
-
-waveform.vcd: $(BIN)
+sim: $(BIN)
 	@echo
 	@echo "### SIMULATING ###"
+	$(call git_commit, "sim RTL")
 	@$(BIN) +verilator+rand+reset+2
+
+
+# waveform.vcd: 
+# 	@echo
+# 	@echo "### SIMULATING ###"
+# 	@$(BIN) +verilator+rand+reset+2
 
 # ./obj_dir/V$(MODULE): .stamp.verilate
 # 	@echo
@@ -85,7 +83,7 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 
-.PHONY: sim clean verilate build waves default run all waveform.vcd
+.PHONY: sim clean verilate build wave default run all waveform.vcd
 
 # rules for git
 include ../Makefile

@@ -1,55 +1,60 @@
+#include "Vmux21.h"
+#include "verilated.h"
+#include "verilated_vcd_c.h"
 
-#include <Vtop.h>
-#include <nvboard.h>
-#include <verilated.h>
-#include <verilated_vcd_c.h>
+VerilatedContext* contextp = NULL;
+VerilatedVcdC* tfp = NULL;
 
-static Vtop dut;
+static V* top;
 
-void nvboard_bind_all_pins(Vtop* top);
-
-static void single_cycle()
+void step_and_dump_wave()
 {
-    dut.clk = 0;
-    dut.eval();
-    dut.clk = 1;
-    dut.eval();
+    top->eval();
+    contextp->timeInc(1);
+    tfp->dump(contextp->time());
+}
+void sim_init()
+{
+    contextp = new VerilatedContext;
+    tfp = new VerilatedVcdC;
+    top = new Vmux21;
+    contextp->traceEverOn(true);
+    top->trace(tfp, 0);
+    tfp->open("dump.vcd");
 }
 
-static void reset(int n)
+void sim_exit()
 {
-    dut.rst = 1;
-    while (n-- > 0)
-        single_cycle();
-    dut.rst = 0;
-}
-
-int main(int argc, char** argv)
-{
-    Verilated::commandArgs(argc, argv);
-    Verilated::traceEverOn(true);
-
-    VerilatedVcdC* tfp = new VerilatedVcdC();
-    dut.trace(tfp, 0);
-    tfp->open("waveform.vcd");
-
-    // nvboard_bind_all_pins(&dut);
-    // nvboard_init();
-
-    reset(10);
-    int i = 0;
-    while (i++ <= 1000) {
-        // nvboard_update();
-        tfp->dump(i);
-        if (i % 2 == 0) {
-            dut.clk = 0;
-            dut.eval();
-        } else {
-            dut.clk = 1;
-            dut.eval();
-        }
-    }
-    dut.final();
+    step_and_dump_wave();
     tfp->close();
-    return 0;
+}
+
+int main()
+{
+    sim_init();
+
+    top->s = 0;
+    top->a = 0;
+    top->b = 0;
+    step_and_dump_wave(); // 将s，a和b均初始化为“0”
+    top->b = 1;
+    step_and_dump_wave(); // 将b改为“1”，s和a的值不变，继续保持“0”，
+    top->a = 1;
+    top->b = 0;
+    step_and_dump_wave(); // 将a，b分别改为“1”和“0”，s的值不变，
+    top->b = 1;
+    step_and_dump_wave(); // 将b改为“1”，s和a的值不变，维持10个时间单位
+    top->s = 1;
+    top->a = 0;
+    top->b = 0;
+    step_and_dump_wave(); // 将s，a，b分别变为“1,0,0”，维持10个时间单位
+    top->b = 1;
+    step_and_dump_wave();
+    top->a = 1;
+    top->b = 0;
+    step_and_dump_wave();
+    top->b = 1;
+    step_and_dump_wave();
+
+    sim_exit();
 }
